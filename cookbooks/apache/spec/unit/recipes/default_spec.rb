@@ -1,3 +1,4 @@
+
 #
 # Cookbook:: apache
 # Spec:: default
@@ -15,9 +16,12 @@ describe 'apache::default' do
       runner.converge(described_recipe)
     end
 
-    it 'converges successfully' do
-      expect { chef_run }.to_not raise_error
+    it 'creates the index file' do
+      expect {chef_run}.to render_file/'/var/www/html/index.html').with_content('<h1>Welcome Home!<h1>')
     end
+	it 'starts the httpd service' do
+	 expect(chef_run).to start_service('httpd')
+	 expect(chef_run).to enable_service('httpd')
   end
 
 #  context 'When all attributes are default, on Ubuntu 16.04' do
